@@ -2,9 +2,9 @@
 # bin/compile <build-dir> <cache-dir>
 set -eo pipefail; [[ $TRACE ]] && set -x
 
-NGINX_VERSION="1.14.0"
+NGINX_VERSION="1.17.0"
 NGINX_TARBALL="nginx-${NGINX_VERSION}.tar.gz"
-PCRE_VERSION="8.40"
+PCRE_VERSION="8.43"
 PCRE_TARBALL="pcre-${PCRE_VERSION}.tar.gz"
 SIGIL_VERSION="0.4.0"
 SIGIL_TARBALL="sigil_${SIGIL_VERSION}_Linux_x86_64.tgz"
@@ -53,8 +53,9 @@ if [[ ! -d "${NGINX_TARBALL%.tar.gz}" ]]; then
 fi
 
 if [[ ! -d "${PCRE_TARBALL%.tar.gz}" ]]; then
-  echo "-----> Download and unzip pcre"
-  curl -sSL "https://ftp.pcre.org/pub/pcre/${PCRE_TARBALL}" -o "${PCRE_TARBALL}"
+  PCRE_URL="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/${PCRE_TARBALL}"
+  echo "-----> Download and unzip pcre from ${PCRE_URL}"
+  curl -sS $PCRE_URL -o "${PCRE_TARBALL}"
   tar xzf "${PCRE_TARBALL}" && rm -f "${PCRE_TARBALL}"
 fi
 
